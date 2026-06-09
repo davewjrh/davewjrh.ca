@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>DaveWJRH</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <!-- Floating nav button (top-right) + menu (includes theme toggle) -->
+    <div class="floating-nav">
+        <button id="nav-toggle" class="nav-toggle" aria-expanded="false" aria-controls="nav-menu"
+            aria-label="Open navigation menu">
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none" xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <rect y="1" width="20" height="2" rx="1" fill="currentColor" />
+                <rect y="6" width="20" height="2" rx="1" fill="currentColor" />
+                <rect y="11" width="20" height="2" rx="1" fill="currentColor" />
+            </svg>
+        </button>
+        <ul id="nav-menu" class="nav-menu" role="menu" hidden>
+            <li role="none"><a role="menuitem" href="#hero">Home</a></li>
+            <li role="none"><a role="menuitem" href="#about">About</a></li>
+            <li role="none"><a role="menuitem" href="#projects">Projects</a></li>
+            <li role="none"><a role="menuitem" href="#resume">Resume</a></li>
+            <li role="none"><a role="menuitem" href="#contact">Contact</a></li>
+            <li role="none">
+                <!-- Theme toggle moved into the menu -->
+                <button id="theme-toggle" class="theme-menu-item" role="menuitem" aria-pressed="false"
+                    aria-label="Toggle light and dark mode">
+                    <svg class="icon icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" fill="currentColor" />
+                    </svg>
+                    <svg class="icon icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <circle cx="12" cy="12" r="4" fill="currentColor" />
+                        <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <path d="M12 2v2" />
+                            <path d="M12 20v2" />
+                            <path d="M4.93 4.93l1.41 1.41" />
+                            <path d="M17.66 17.66l1.41 1.41" />
+                            <path d="M2 12h2" />
+                            <path d="M20 12h2" />
+                            <path d="M4.93 19.07l1.41-1.41" />
+                            <path d="M17.66 6.34l1.41-1.41" />
+                        </g>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+    </div>
+
+    <main id="main" class="snap-container">
+        <section id="hero" class="panel hero" data-title="Hi!">
+            <div class="panel-inner">
+                <img class="hero-img" src="assets/davewjrh.jpg" alt="A picture of me" draggable="false" />
+                <h2 class="hero-title">Hey 👋</h2>
+                <p class="hero-sub">I design and build fun, accessible web stuff.</p>
+                <a class="cta" href="#projects">See my work</a>
+                <a class="cta" href="#contact">Wow, links!</a>
+            </div>
+        </section>
+
+        <section id="about" class="panel about" data-title="About">
+            <div class="panel-inner">
+                <h2>About me</h2>
+                <p>I'm an aspiring software dev and cybersecurity specialist
+                    with a strong affinity toward computer science and information technology. Skilled in web
+                    scripting and programming languages, I aim to create dynamic applications that can be used for
+                    educational and entertainment purposes. I enjoy turning ideas into polished, responsive, and
+                    accessible interfaces.
+                </p>
+                <ul>
+                    <li>Languages: HTML/CSS/JS/C++/Python/Java/SQL</li>
+                    <li>Applications: MS Visual Studio & Office, Android Studio</li>
+                    <li>Operating Systems: Windows, Mac, Linux, Android</li>
+                    <li>Hardware: PC Component Installation & Maintenance</li>
+                    <li>Networking: Fiber Optic, Ethernet, A/V, Coaxial Cable Installation</li>
+                    <li>Additional: Surveillance Systems, Satellite TV, Computer Repair, Graphic Design</li>
+                </ul>
+                <p>
+                    Outside of coding, I like to spend time playing video
+                    games. Hit me up! 🤙 <br /><br />
+                    <a class="cta" href="https://discordapp.com/users/279814910635016215">Discord</a>
+                    /
+                    <a class="cta" href="https://steamcommunity.com/id/davewjrh/">Steam</a>
+                    /
+                    <a class="cta" href="https://www.youtube.com/@DaveWJRH">YouTube</a>
+                </p>
+
+            </div>
+        </section>
+
+        <section id="projects" class="panel projects" data-title="Projects">
+            <div class="panel-inner">
+                <h2>Graphic Design</h2>
+                <div class="grid">
+                    <article class="card">
+                        <h3>MW Honey</h3>
+                        <img class="projects-img" src="assets/mwhoneylogo.png" alt="MW Honey logo" draggable="false" />
+                    </article>
+                    <article class="card">
+                        <h3>SLee Enterprises</h3>
+                        <img class="projects-img" src="assets/sleeenterpriseslogo.png" alt="SLee Enterprises logo"
+                            draggable="false" />
+                    </article>
+                    <article class="card">
+                        <h3>Tackle and Tire</h3>
+                        <img class="projects-img" src="assets/tackleandtirelogo.png" alt="Tackle and Tire logo"
+                            draggable="false" />
+                    </article>
+                    <article class="card">
+                        <h3>Pickle Lake Fire Rescue</h3>
+                        <img class="projects-img" src="assets/picklelakefirerescuelogo.png"
+                            alt="Pickle Lake Fire Rescue logo" draggable="false" />
+                    </article>
+                    <article class="card">
+                        <h3>Hearth & Kin</h3>
+                        <img class="projects-img" src="assets/hearthandkinlogo.png" alt="Hearth and Kin logo"
+                            draggable="false" />
+                    </article>
+                    <article class="card">
+                        <h3>Kodabytes</h3>
+                        <img class="projects-img" src="assets/kodabyteslogo.png" alt="Kodabytes logo"
+                            draggable="false" />
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="resume" class="panel resume" data-title="Resume">
+            <div class="panel-inner">
+                <h2>Resume</h2>
+                <h3>Work Experience</h3>
+                <ul class="timeline">
+                    <li><strong>Website Administrator</strong> —
+                        <a href="https://picklelake.ca/">The Corporation of the Township of Pickle Lake</a>
+                    </li>
+                    <li><strong>Website Consultant</strong> —
+                        <a href="https://carleton.ca/">Carleton University</a>
+                    </li>
+                    <li><strong>IT Consultant & Field Technician</strong> —
+                        <a href="#">Self-Employed</a>
+                    </li>
+                    <li><strong>Database Administrator</strong> —
+                        <a href="https://www.kpdsb.ca/">Keewatin-Patricia District School Board</a>
+                    </li>
+                    <li><strong>Software Developer (Applied Research)</strong> —
+                        <a href="https://www.saultcollege.ca/">Sault College</a>
+                    </li>
+                </ul>
+                <h3>Education</h3>
+                <ul class="timeline">
+                    <li><strong>Bachelor of Computer Science Honours (Cybersecurity Stream)</strong> — <a
+                            href="https://carleton.ca/">Carleton
+                            University</a></li>
+                    <li><strong>Google IT Automation with Python Professional Certificate</strong> — <a
+                            href="https://www.coursera.org/">Coursera</a></li>
+                    <li><strong>Google IT Support Professional Certificate</strong> — <a
+                            href="https://www.coursera.org/">Coursera</a></li>
+                    <li><strong>Computer Programmer/Analyst Advanced Diploma</strong> — <a
+                            href="https://www.saultcollege.ca/">Sault College</a></li>
+                </ul>
+                <a class="download" href="assets/davewjrh-resume.pdf" aria-disabled="false">The Full Thing</a>
+            </div>
+        </section>
+
+        <section id="contact" class="panel contact" data-title="Contact">
+            <div class="panel-inner">
+                <h2>Contact</h2>
+                <p><iframe
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSdmCf-qo6ZL9ZrLn5ZgIhdPDxBF9-6y8kWV34Pg2GxRzuZD5w/viewform?embedded=true"
+                        width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe></p>
+                <p>Or find me on
+                    <a class="cta" href="https://github.com/davewjrh">GitHub</a>
+                    /
+                    <a class="cta" href="https://www.linkedin.com/in/davewjrh">LinkedIn</a>
+                </p>
+            </div>
+        </section>
+    </main>
+    <script src="script.js" defer></script>
+</body>
+
+</html>
