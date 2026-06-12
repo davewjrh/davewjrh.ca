@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     var modalImg = document.getElementById("img01");
     var captionText = document.getElementById("caption");
 
-    const images = document.querySelectorAll(".projects-img");
+    const images = document.querySelectorAll(".designs-img");
 
     // Helper to disable/enable nav while modal is open
     function setNavDisabledForModal(disabled) {
