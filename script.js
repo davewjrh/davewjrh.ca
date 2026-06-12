@@ -1,6 +1,12 @@
+// ==========================
+// Initialization
+// ==========================
 // Observe sections and toggle .is-visible for animations
 document.addEventListener('DOMContentLoaded', () => {
     const panels = document.querySelectorAll('.panel');
+    // Navigation menu (single button -> menu)
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
 
     const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -14,6 +20,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     panels.forEach(p => io.observe(p));
 
+    // ==========================
+    // Keyboard navigation
+    // ==========================
     // keyboard navigation between sections
     let sectionList = Array.from(panels);
     window.addEventListener('keydown', (e) => {
@@ -38,6 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prev) prev.scrollIntoView({ behavior: 'smooth' });
     }
 
+    // ==========================
+    // Visual effects
+    // ==========================
     // small parallax on scroll for hero background
     const hero = document.querySelector('.hero');
     window.addEventListener('scroll', () => {
@@ -47,12 +59,134 @@ document.addEventListener('DOMContentLoaded', () => {
         hero.style.backgroundPosition = `center ${50 + offset}%`;
     }, { passive: true });
 
+    // ==========================
+    // Modal: project gallery
+    // ==========================
     // Disable right-click context menu on images
     const image = document.querySelector('img');
     image.addEventListener('contextmenu', (event) => {
         event.preventDefault();
     });
 
+    // Modal for project gallery - element references and helpers
+    // Get the modal
+    var modal = document.getElementById("modal");
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+
+    const images = document.querySelectorAll(".projects-img");
+
+    // Helper to disable/enable nav while modal is open
+    function setNavDisabledForModal(disabled) {
+        try {
+            if (!navToggle || !navMenu) return;
+            if (disabled) {
+                // close any open nav and hide/disable controls
+                closeNavMenu();
+                navToggle.disabled = true;
+                // add per-element class so CSS can hide the toggle without !important
+                const floatingNav = document.querySelector('.floating-nav');
+                if (floatingNav) floatingNav.classList.add('is-hidden-due-to-modal');
+                navMenu.classList.add('is-hidden-due-to-modal');
+                navToggle.setAttribute('aria-hidden', 'true');
+                navMenu.setAttribute('aria-hidden', 'true');
+            } else {
+                navToggle.disabled = false;
+                const floatingNav = document.querySelector('.floating-nav');
+                if (floatingNav) floatingNav.classList.remove('is-hidden-due-to-modal');
+                navMenu.classList.remove('is-hidden-due-to-modal');
+                navToggle.removeAttribute('aria-hidden');
+                navMenu.removeAttribute('aria-hidden');
+            }
+        } catch (e) {
+            // guard against environments where nav elements are missing
+        }
+    }
+
+    function openModalForImage(img) {
+        if (!modal) return;
+        // remember opener for returning focus
+        lastOpener = img;
+        modal.style.display = "block";
+        modal.setAttribute('aria-hidden', 'false');
+        modalImg.src = img.src;
+        modalImg.alt = img.alt || '';
+        captionText.innerHTML = img.alt || '';
+        setNavDisabledForModal(true);
+        // move focus into modal
+        modal.focus();
+    }
+
+    function closeModal() {
+        if (!modal) return;
+        modal.style.display = "none";
+        modal.setAttribute('aria-hidden', 'true');
+        setNavDisabledForModal(false);
+        // return focus to opener if present
+        try { if (lastOpener && typeof lastOpener.focus === 'function') lastOpener.focus(); } catch (e) { }
+    }
+
+    images.forEach(img => {
+        img.addEventListener("click", function () {
+            openModalForImage(this);
+        });
+    });
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // ==========================
+    // Modal accessibility: focus trapping & return-focus
+    // ==========================
+    // Focus-trap: keep keyboard focus within modal while open
+    let lastOpener = null;
+    function trapFocus(e) {
+        if (!modal || modal.getAttribute('aria-hidden') === 'true') return;
+        if (e.key === 'Tab') {
+            const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const arr = Array.prototype.slice.call(focusable).filter(el => !el.disabled && el.offsetParent !== null);
+            if (arr.length === 0) {
+                e.preventDefault();
+                return;
+            }
+            const first = arr[0];
+            const last = arr[arr.length - 1];
+            if (e.shiftKey) {
+                if (document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                }
+            } else {
+                if (document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
+        } else if (e.key === 'Escape') {
+            // allow Esc to close modal
+            closeModal();
+        }
+    }
+
+    // listen for keydown at document level to trap focus while modal is open
+    document.addEventListener('keydown', trapFocus);
+
+    // When the user clicks on <span> (x), close the modal
+    if (span) span.onclick = function () { closeModal(); };
+
+    // Close modal when clicking anywhere outside the image area
+    if (modal) {
+        modal.addEventListener("click", function (e) {
+            if (e.target !== modalImg) {
+                closeModal();
+            }
+        });
+    }
+
+    // ==========================
+    // Theme toggle
+    // ==========================
     // Theme toggle: initialize from localStorage and wire up button
     const THEME_KEY = 'site-theme'; // 'dark' or 'light'
     const root = document.documentElement;
@@ -90,10 +224,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Navigation menu (single button -> menu)
-    const navToggle = document.getElementById('nav-toggle');
-    const navMenu = document.getElementById('nav-menu');
-
+    // ==========================
+    // Navigation menu helpers
+    // ==========================
     function closeNavMenu() {
         if (!navToggle || !navMenu) return;
         navToggle.setAttribute('aria-expanded', 'false');

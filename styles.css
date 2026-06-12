@@ -1,69 +1,73 @@
 :root {
     --bg-1: #0f1724;
-    --bg-2: black;
+    --bg-2: #100d1a;
     --hero-bg-1: #083358;
     --hero-bg-2: #1b3b5b;
     --panel-inner-1: #ffffff;
-    --panel-inner-2: #fffefc;
+    --panel-inner-2: #dddddd;
     --text: #f4f4f4;
     --panel: #fbfbfb;
     --accent: #ff2d55;
     --muted: #6b7280;
     --comic: #ffd166;
+    --modal: rgba(0, 0, 0, 0.9);
     --max-width: 1100px;
     /* Light theme overrides */
-    --bg-light-1: #cdcdcd;
-    --bg-light-2: ;
+    --bg-light-1: #ffffff;
+    --bg-light-2: #eeeeee;
     --hero-bg-light-1: #93c2eb;
-    --hero-bg-light-2: #bbdefc;
-    --panel-inner-light-1: black;
-    --panel-inner-light-2: #2d2d2d;
+    --hero-bg-light-2: #97afe3;
     --text-light: #0b1220;
+    --panel-inner-light-1: #2d2d2d;
+    --panel-inner-light-2: #000000;
+    --panel-light: #2d2d2d;
+    --accent-light: #ff7790;
+    --modal-light: rgba(100, 100, 100, 0.9);
     --nav-height: 0px;
     --min-panel-width: 90%;
     --min-panel-height: 90%;
+    /* Floating button tokens */
+    --floating-button-size: 40px;
+    --floating-button-padding: 0.45rem;
+    --floating-button-radius: 10px;
+    --floating-button-bg: rgba(255, 255, 255, 0.05);
+    --floating-button-bg-light: rgba(0, 0, 0, 0.05);
+    --floating-button-border: 1px solid rgba(255, 255, 255, 0.04);
+    --floating-button-shadow: 0 8px 20px rgba(2, 6, 23, 0.45);
+    --floating-button-shadow-light: 0 8px 20px rgba(255, 255, 255, 0.45);
+}
+
+:root.light-theme {
+    --bg-1: var(--bg-light-1);
+    --bg-2: var(--bg-light-2);
+    --hero-bg-1: var(--hero-bg-light-1);
+    --hero-bg-2: var(--hero-bg-light-2);
+    --panel-inner-1: var(--panel-inner-light-1);
+    --panel-inner-2: var(--panel-inner-light-2);
+    --panel: var(--panel-light);
+    --text: var(--text-light);
+    /* --accent: var(--accent-light);*/
+    --modal: var(--modal-light);
 }
 
 * {
     box-sizing: border-box
 }
 
-html,
-body {
-    height: 100%
-}
-
 body {
     margin: 0;
     font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+    background: linear-gradient(var(--bg-1), var(--bg-2));
     color: #0b1220;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    height: 100%
 }
 
 .wrap {
     max-width: var(--max-width);
     margin: 0 auto;
     padding: 1rem
-}
-
-.skip-link {
-    position: absolute;
-    left: -9999px;
-    top: auto;
-    width: 1px;
-    height: 1px;
-    overflow: hidden
-}
-
-.skip-link:focus {
-    position: static;
-    width: auto;
-    height: auto;
-    padding: .5rem;
-    background: #fff;
-    color: #000
 }
 
 .site-header {
@@ -75,17 +79,16 @@ body {
     font-family: Bangers, cursive;
     color: var(--comic);
     margin: 0;
-    font-size: 1.6rem
+    font-size: 1.6rem;
 }
 
 .main-nav a {
     color: #e6eef8;
     margin-left: 1rem;
     text-decoration: none;
-    font-weight: 600
+    font-weight: 600;
 }
 
-/* Hide common menu/hamburger/kebab/waffle icons if present */
 .menu,
 .menu-icon,
 .hamburger,
@@ -93,15 +96,15 @@ body {
 .kebab,
 .ellipsis,
 .more-button,
-.waffle,
-button[aria-label*="menu" i],
-button[aria-label*="more" i],
-[data-icon*="menu" i],
-[data-icon*="ellipsis" i],
-[data-testid*="menu" i] {
-    display: none !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
+.waffle {
+    /* Hide common third-party widget classes (conservative).
+   NOTE: this intentionally avoids attribute-based selectors (e.g. aria-label*)
+   to prevent accidentally matching site controls. If you need to hide a
+   specific third-party widget, add its exact class or data-* selector here.
+    Conservative hiding without attribute selectors to avoid accidental matches */
+    display: none;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 .snap-container {
@@ -110,21 +113,21 @@ button[aria-label*="more" i],
     height: calc(100vh - var(--nav-height, 0px))
 }
 
-/* Hide scrollbars while preserving scroll behavior */
-/* WebKit (Chrome, Safari, Edge) */
 .snap-container::-webkit-scrollbar {
+    /* Hide scrollbars while preserving scroll behavior */
+    /* WebKit (Chrome, Safari, Edge) */
     width: 0;
     height: 0;
 }
 
-/* Firefox */
 .snap-container {
     scrollbar-width: none;
 }
 
-/* Root scrollbars */
 html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+body::-webkit-scrollbar,
+.panel-inner::-webkit-scrollbar,
+.modal::-webkit-scrollbar {
     width: 0;
     height: 0;
 }
@@ -133,10 +136,6 @@ html,
 body {
     -ms-overflow-style: none;
 }
-
-/* section:nth-child(even) {
-    background-color: #6b7280;
-} */
 
 .panel {
     min-height: var(--min-panel-height);
@@ -152,14 +151,15 @@ body {
     height: 90dvh;
     max-width: var(--max-width);
     margin: 0 auto;
-    background: linear-gradient(180deg, var(panel-inner-1) 0%, var(--panel-inner-2) 100%);
     padding: 2.5rem;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(2, 6, 23, 0.6);
     transform-origin: center;
+    overflow-y: scroll;
 }
 
-:not(.hero)>.panel-inner::before {
+/* (Unused)
+body::after {
     content: "";
     position: absolute;
     left: 0;
@@ -168,22 +168,17 @@ body {
     width: 100%;
     height: 100%;
     opacity: 1;
-    /* Controls the intensity of the grain */
     mix-blend-mode: overlay;
-    /* Softens and blends the grain into the background */
     pointer-events: none;
-    /* Allows users to click elements underneath */
-
-    /* URL-encoded SVG Fractal Noise */
     background-color: transparent;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 600'%3E%3Cfilter id='a'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23a)'/%3E%3C/svg%3E");
     background-repeat: repeat;
-    background-size: 250px;
-    border-radius: 12px;
-}
+    background-size: 250px
+} 
+*/
 
 .hero {
-    background: linear-gradient(135deg, var(--hero-bg-1) 0%, var(--hero-bg-2) 60%);
+    background: linear-gradient(var(--hero-bg-1), var(--hero-bg-2));
     color: var(--text);
 }
 
@@ -195,7 +190,8 @@ body {
 
 .hero-title {
     font-size: 2.25rem;
-    margin: 0 0 .5rem
+    margin: 0 0 .5rem;
+    vertical-align: center;
 }
 
 .hero-sub {
@@ -204,6 +200,8 @@ body {
 
 .hero-img {
     float: right;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
     object-fit: cover;
     object-position: center;
     width: 50%;
@@ -211,29 +209,33 @@ body {
     max-height: 100%;
 }
 
+.hero-aide {
+    font-size: 0.8em;
+    font-style: italic;
+    color: #ffffffdd;
+}
+
 .cta {
     display: inline-block;
     background: var(--accent);
     color: var(--text);
+    border: 1px solid rgba(0, 0, 0, 0.33);
     padding: .6rem 1rem;
     border-radius: 6px;
     text-decoration: none
 }
 
-.projects-img {
-    width: 100%;
-    height: auto
-}
-
 .about,
 .projects,
+.designs,
 .resume,
 .contact {
-    background: transparent
+    background: transparent;
 }
 
 .about .panel-inner,
 .projects .panel-inner,
+.designs .panel-inner,
 .resume .panel-inner,
 .contact .panel-inner {
     background: radial-gradient(#ffffff, #fffffd);
@@ -242,16 +244,38 @@ body {
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-top: 1rem
+    /* Force at most two equal-height rows; make rows share available grid height */
+    grid-template-rows: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
+    /* Occupy the available vertical space inside the panel so rows can scale to fit */
+    height: calc(99% - 4rem);
+    min-height: 0;
 }
 
 .card {
     padding: 1rem;
     border-radius: 8px;
-    background: linear-gradient(180deg, #fffefc, #fff);
+    background: linear-gradient(#fffefc, #fff);
     box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
-    border: 3px solid #00000008
+    border: 3px solid #00000008;
+    object-fit: contain;
+    /* make card a vertical flex container so heading stays natural and image can grow */
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.designs-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    object-fit: contain;
+    /* allow the image to grow and fill remaining vertical space in the card */
+    flex: 1 1 auto;
 }
 
 .timeline {
@@ -265,18 +289,6 @@ body {
     border-bottom: 1px dashed var(--muted)
 }
 
-.download {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: .5rem 1rem;
-    border-radius: 6px;
-    background: var(--comic);
-    color: var(--text-light);
-    text-decoration: none;
-    font-weight: 700
-}
-
-/* Theme toggle button styles */
 .theme-toggle {
     background: transparent;
     border: 1px solid rgba(255, 255, 255, 0.06);
@@ -292,23 +304,6 @@ body {
     outline: 3px solid rgba(255, 255, 255, 0.08);
 }
 
-/* Light theme: when .light-theme is present on the root (html) */
-:root.light-theme {
-    --bg-1: var(--bg-light-1);
-    --bg-2: var(--bg-light-2);
-    --hero-bg-1: var(--hero-bg-light-1);
-    --hero-bg-2: var(--hero-bg-light-2);
-    --panel-inner-1: var(--panel-inner-light-1);
-    --panel-inner-2: var(--panel-inner-light-2);
-    --text: var(--text-light);
-}
-
-:root.light-theme body {
-    background: linear-gradient(180deg, var(--bg-1), var(--bg-2) 100%);
-    color: var(--text-light);
-}
-
-/* Floating nav (top-right) */
 .floating-nav {
     position: fixed;
     top: 1rem;
@@ -338,49 +333,67 @@ body {
     outline: 3px solid rgba(255, 255, 255, 0.06);
 }
 
-/* Smooth theme transitions */
 html,
 body,
 .panel-inner,
 .card,
 .site-header {
+    /* Smooth theme transitions */
     transition: background-color 320ms ease, color 320ms ease, border-color 320ms ease, box-shadow 320ms ease;
 }
 
-/* Nav toggle and menu styles */
 .nav-toggle {
     background: transparent;
     border: none;
     color: inherit;
-    padding: .3rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
 }
 
-/* Ensure the floating nav toggle is visible even if broad selectors hide menu icons */
+.floating-button {
+    /* Shared floating button visual (used by nav toggle and modal close) */
+    width: var(--floating-button-size);
+    height: var(--floating-button-size);
+    padding: var(--floating-button-padding);
+    border-radius: var(--floating-button-radius);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--floating-button-bg);
+    border: var(--floating-button-border);
+    box-shadow: var(--floating-button-shadow);
+    color: var(--text);
+}
+
+.floating-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+:root.light-theme .floating-button {
+    /* Light-theme floating button tokens override */
+    --floating-button-border: 1px solid rgba(2, 6, 23, 0.06);
+}
+
+
 .floating-nav .nav-toggle {
-    display: inline-flex !important;
-    visibility: visible !important;
-    pointer-events: auto !important;
-    color: #e6eef8 !important;
-    /* light-ish for dark background */
-    background: rgba(255, 255, 255, 0.03) !important;
-    padding: .45rem !important;
-    border-radius: 10px !important;
-    box-shadow: 0 8px 20px rgba(2, 6, 23, 0.45) !important;
-    border: 1px solid rgba(255, 255, 255, 0.04) !important;
+    /* Ensure the floating nav toggle is visible even if broad selectors hide menu icons */
+    display: inline-flex;
+    visibility: visible;
+    pointer-events: auto;
+    color: inherit;
 }
 
-.floating-nav .nav-toggle:hover {
-    background: rgba(255, 255, 255, 0.06) !important;
-}
-
-:root.light-theme .floating-nav .nav-toggle {
-    color: var(--text-light) !important;
-    background: rgba(2, 6, 23, 0.04) !important;
-    border: 1px solid rgba(2, 6, 23, 0.06) !important;
+.floating-nav.is-hidden-due-to-modal,
+.floating-nav.is-hidden-due-to-modal .nav-toggle,
+.nav-menu.is-hidden-due-to-modal {
+    /* When modal is open, we add a per-element helper class to hide nav controls.
+   This avoids using !important and keeps the rule cascade-safe. JS toggles
+   the class `is-hidden-due-to-modal` on the floating nav and nav menu. */
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .nav-menu {
@@ -413,8 +426,8 @@ body,
     background: rgba(255, 255, 255, 0.06);
 }
 
-/* Light theme override: opaque light background */
 :root.light-theme .nav-menu {
+    /* Light theme override: opaque light background */
     background-color: #ffffff;
     color: var(--text-light);
     border: 1px solid rgba(2, 6, 23, 0.06);
@@ -426,12 +439,11 @@ body,
     background: rgba(2, 6, 23, 0.04);
 }
 
-/* Hide menu by default when using [hidden] */
 .nav-menu[hidden] {
+    /* Hide menu by default when using [hidden] */
     display: none;
 }
 
-/* Theme icon visibility */
 .icon-sun {
     display: none;
 }
@@ -444,13 +456,8 @@ body,
     display: none;
 }
 
-.panel.is-visible::before {
-    opacity: 1;
-    transform: skew(-8deg) translateY(0)
-}
-
-/* Entry animations */
 .panel-inner {
+    /* Entry animations */
     transform: translateY(25px) scale(.98);
     opacity: 1;
 }
@@ -467,7 +474,111 @@ body,
     box-shadow: 0 20px 40px rgba(2, 6, 23, 0.2)
 }
 
-/* Responsive tweaks */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: var(--modal);
+    /* Black w/ opacity */
+}
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#caption {
+    margin: auto;
+    display: block;
+    width: 80%;
+    max-width: 700px;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+.modal-content,
+#caption {
+    /* Short modal animation */
+    animation-name: fade;
+    animation-duration: 0.6s;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+.close {
+    /* Uses shared .floating-button for visuals */
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    /* rely on .floating-button for color, background, border, shadow and sizing */
+    color: inherit;
+    font-size: 16px;
+    font-weight: 700;
+    transition: 0.15s ease;
+    line-height: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close:hover,
+.close:focus {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.close:focus {
+    /* Keep the close button keyboard-accessible with a visible focus ring */
+    outline: 3px solid rgba(255, 255, 255, 0.08);
+    outline-offset: 2px;
+}
+
+.close svg {
+    /* Make sure SVG inherits the text color and is centered inside the floating button */
+    display: block;
+    width: 16px;
+    height: 16px;
+    color: var(--text);
+}
+
+.floating-button svg {
+    /* Ensure floating-button SVGs inherit currentColor and scale to fit the button so they follow --text (and light-theme overrides) without additional rules. */
+    display: block;
+    width: 18px;
+    height: 18px;
+    color: var(--text);
+}
+
 @media (max-width:720px) {
     .hero-title {
         font-size: 1.6rem
@@ -504,6 +615,14 @@ body,
         left: .5rem;
         top: .5rem;
         font-size: 1.2rem
+    }
+
+    .card h3 {
+        display: none;
+    }
+
+    .modal-content {
+        width: 100%;
     }
 }
 
